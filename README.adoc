@@ -33,8 +33,10 @@
 и код 500 в случае какой-либо иной ошибки («Что-то пошло не так»).
 
 == Запуск
-
-    go run .
+[source]
+----
+go run .
+----
 
 == Использование
 
@@ -42,27 +44,29 @@
 
 
 1. OK
-
++
+[source]
 ----
 curl --verbose --header "Content-Type: application/json" --data "{ """expression""": """2+2*2""" }" http://localhost:8088/api/v1/calculate
 ----
-
++
 2. OK
-
++
+[source]
 ----
 curl --verbose --header "Content-Type: application/json" --data "{ """expression""": """22*2""" }" http://localhost:8088/api/v1/calculate
 ----
-
-
++
 3. 422
-
++
+[source]
 ----
 curl --verbose --header "Content-Type: application/json" --data "{ """expression""": """422+a*2""" }" http://localhost:8088/api/v1/calculate
 ----
-
-
++
 4. 500
-
++
+[source]
 ----
 curl --verbose --header "Content-Type: application/json" --data "{ """expression""": """2+2*2)""" }" http://localhost:8088/api/v1/calculate
 ----
