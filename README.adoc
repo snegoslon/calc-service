@@ -1,0 +1,69 @@
+Финальный проект спринта 1, курс Го: сервис подсчёта арифметических выражений
+
+== Описание
+
+Пользователь отправляет арифметическое выражение по HTTP и получает в ответ его результат.
+
+У сервиса 1 endpoint с url-ом `/api/v1/calculate`. Пользователь отправляет на этот url POST-запрос с телом:
+
+    {
+        "expression": "выражение, которое ввёл пользователь"
+    }
+
+В ответ пользователь получает HTTP-ответ с телом:
+
+    {
+        "result": "результат выражения"
+    }
+
+и кодом 200, если выражение вычислено успешно, либо HTTP-ответ с телом:
+
+    {
+        "error": "Expression is not valid"
+    }
+
+и кодом 422, если входные данные не соответствуют требованиям приложения — например, кроме цифр и разрешённых операций пользователь ввёл символ английского алфавита.
+
+Ещё один вариант HTTP-ответа:
+
+    {
+        "error": "Internal server error"
+    }
+
+и код 500 в случае какой-либо иной ошибки («Что-то пошло не так»).
+
+== Запуск
+
+    go run .
+
+== Использование
+
+Примеры для Windows (кавычки)
+
+
+1. OK
+
+----
+curl --verbose --header "Content-Type: application/json" --data "{ """expression""": """2+2*2""" }" http://localhost:8088/api/v1/calculate
+----
+
+2. OK
+
+----
+curl --verbose --header "Content-Type: application/json" --data "{ """expression""": """22*2""" }" http://localhost:8088/api/v1/calculate
+----
+
+
+3. 422
+
+----
+curl --verbose --header "Content-Type: application/json" --data "{ """expression""": """422+a*2""" }" http://localhost:8088/api/v1/calculate
+----
+
+
+4. 500
+
+----
+curl --verbose --header "Content-Type: application/json" --data "{ """expression""": """2+2*2)""" }" http://localhost:8088/api/v1/calculate
+----
+
